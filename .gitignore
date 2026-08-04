@@ -1,5 +1,6 @@
 gen/
 generated-images/
+imgs_gen/
 *.py
 node_modules/
 .workbuddy/
