@@ -330,6 +330,23 @@
   .empty-sm{text-align:center;color:var(--muted);font-size:13px;padding:24px 0;}
   .share-box{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:10px;font-size:13px;line-height:1.6;
     font-family:var(--font-body);background:#FFFDF8;color:var(--fg);resize:none;box-sizing:border-box;}
+  /* ====== 接龙 / 汇总 ====== */
+  .chain-person{background:#FFFDF8;border:1.5px solid var(--border);border-radius:14px;padding:11px 13px;margin-bottom:10px;}
+  .chain-person>b{display:block;font-size:14px;color:var(--primary);margin-bottom:6px;font-family:var(--font-cn);}
+  .chain-item{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:3px 0;color:var(--fg);}
+  .chain-item small{color:var(--muted);font-size:11px;margin-left:8px;white-space:nowrap;}
+  .prep-row{display:flex;align-items:center;gap:12px;background:#FFFDF8;border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;}
+  .prep-rank{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--caramel);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);}
+  .prep-main{flex:1;min-width:0;}
+  .prep-main b{font-size:15px;font-family:var(--font-cn);}
+  .prep-qty{color:var(--primary);font-weight:800;font-size:15px;font-family:var(--font-body);white-space:nowrap;margin-left:8px;}
+  .prep-break{font-size:12px;color:var(--muted);margin-top:3px;}
+  .sum-stats{display:flex;gap:10px;margin-bottom:14px;}
+  .sum-stat{flex:1;background:#FFFDF8;border:1.5px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;}
+  .sum-stat b{display:block;font-size:20px;color:var(--primary);font-family:var(--font-body);}
+  .sum-stat span{font-size:12px;color:var(--muted);}
+  .name-chip{display:inline-flex;align-items:center;gap:6px;background:#FBE7B8;color:var(--primary);font-size:13px;font-family:var(--font-cn);padding:6px 12px;border-radius:20px;cursor:pointer;}
+  .tip-line{font-size:12px;color:var(--muted);line-height:1.6;background:#FBF3E6;border-radius:10px;padding:9px 11px;margin-bottom:12px;}
 </style>
 </head>
 <body>
@@ -403,65 +420,87 @@
     <section class="view" id="view-confirm">
       <div class="nav">
         <div class="icon-btn" onclick="switchTab('home')"><svg viewBox="0 0 18 18" fill="none"><path d="M10.8 15L5.4 9l5.4-6" stroke="#78350F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="nav-title">今晚菜单</div>
+        <div class="nav-title">接龙清单</div>
         <div class="icon-btn" onclick="clearCart()" style="font-size:11px;color:var(--muted);font-family:var(--font-cn)">清空</div>
       </div>
       <div class="pad gap20" style="padding-top:10px">
         <div class="kitchen-card">
           <div class="ki"><svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="16" fill="#FEF3C7"/><path d="M11 22h18a1 1 0 0 1 1 1v2a6.2 6.2 0 0 1-6.2 6.2h-7.6A6.2 6.2 0 0 1 10 25v-2a1 1 0 0 1 1-1z" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M25 23h3a1.6 1.6 0 0 1 0 3.2h-2.6" stroke="#92400E" stroke-width="2" stroke-linecap="round"/><path d="M15 17c0-2.2 2.2-2.2 2.2-4.4M23 17c0-2.2 2.2-2.2 2.2-4.4" stroke="#B45309" stroke-width="2" stroke-linecap="round"/></svg></div>
-          <div class="kt" style="flex:1"><b>刘家厨房</b><small>主厨：爸爸 · 今晚 18:30 开饭 · 仅堂食</small></div>
+          <div class="kt" style="flex:1"><b>刘家厨房</b><small>接龙点菜中 · 有链接就能点</small></div>
         </div>
 
         <div>
-          <div class="section-title" style="margin-bottom:10px">菜品清单</div>
+          <div class="section-title" style="margin-bottom:10px">我的已点</div>
           <div id="orderList" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <div>
+          <div class="section-title" style="margin-bottom:10px">接龙全员</div>
+          <div id="chainList" style="display:flex;flex-direction:column;gap:10px"></div>
         </div>
 
         <div class="note-card">
           <svg viewBox="0 0 18 18" fill="none"><path d="M13.5 15L15 6H3l1.5 9z" stroke="#A87C5C" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 6V4a3.5 3.5 0 0 1 7 0v2" stroke="#A87C5C" stroke-width="1.4" stroke-linecap="round"/></svg>
-          <input id="orderNote" type="text" placeholder="给爸爸留个话，比如「少放糖」...">
+          <input id="orderNote" type="text" placeholder="给掌勺留个话，比如「少放糖」...">
         </div>
 
         <div class="cost-card" id="costCard"></div>
       </div>
       <div class="cta-bar">
-        <div class="info"><b id="cartInfo">还没点菜</b><small id="cartSub">爸爸 · 妈妈 · 我</small></div>
-        <button class="btn-primary" onclick="submitOrder()">确认菜单，通知家人</button>
+        <div class="info"><b id="cartInfo">还没点菜</b><small id="cartSub">我的已点</small></div>
+        <button class="btn-primary" onclick="shareChain()">生成接龙链接，传给下一位</button>
       </div>
     </section>
 
     <!-- ================= ④ 会员中心 ================= -->
     <section class="view" id="view-member">
       <div class="m-header">
-        <!-- 状态栏已移除(H5真机模式不需要) -->
         <div class="content">
           <div class="m-avatar"><svg viewBox="0 0 56 56" width="56" height="56"><circle cx="28" cy="28" r="28" fill="#B45309"/><circle cx="28" cy="23" r="10" fill="#FEF3C7"/><path d="M12 48c0-8.8 7.2-16 16-16s16 7.2 16 16" fill="#FEF3C7"/></svg></div>
           <div class="m-user">
-            <div class="name">刘家 · 我</div>
-            <div class="role">家庭成员 · 点菜中</div>
-            <div class="m-online"><div class="dot"></div><span>在线</span></div>
+            <div class="name" id="memName">我</div>
+            <div class="role">接龙点菜 · 有链接就能点</div>
           </div>
+          <div class="name-chip" onclick="openNameModal()" style="margin-left:auto">修改称呼</div>
         </div>
       </div>
       <div class="pad gap20" style="padding-top:8px">
         <div class="data-cards">
           <div class="data-card c1"><b id="statTotal">23</b><span>全部菜品</span></div>
-          <div class="data-card c2"><b id="statWeek">0</b><span>本周已点</span></div>
-          <div class="data-card c3"><b id="statOnline">0</b><span>家人在线</span></div>
+          <div class="data-card c2"><b id="statWeek">0</b><span>参与人数</span></div>
+          <div class="data-card c3"><b id="statOnline">0</b><span>已点道数</span></div>
         </div>
         <div>
           <div class="func-title" style="margin-bottom:10px">常用功能</div>
           <div class="func-grid">
-            <div class="func" onclick="openFamily()"><svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="14" fill="#FEF3C7"/><circle cx="13" cy="15" r="4" stroke="#92400E" stroke-width="1.8"/><path d="M6 27c0-3.8 3.1-6 7-6s7 2.2 7 6" stroke="#92400E" stroke-width="1.8" stroke-linecap="round"/><circle cx="24" cy="17" r="3" stroke="#B45309" stroke-width="1.6"/><path d="M19 27c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" stroke="#B45309" stroke-width="1.6" stroke-linecap="round"/></svg><span>家人管理</span></div>
+            <div class="func" onclick="openNameModal()"><svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="14" fill="#FEF3C7"/><circle cx="18" cy="13" r="5" stroke="#92400E" stroke-width="1.8"/><path d="M8 29c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="#92400E" stroke-width="1.8" stroke-linecap="round"/></svg><span>我的称呼</span></div>
             <div class="func" onclick="openAddDish()"><svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="14" fill="#FEF3C7"/><path d="M18 11v14M11 18h14" stroke="#92400E" stroke-width="2.2" stroke-linecap="round"/></svg><span>添加菜谱</span></div>
-            <div class="func" onclick="openWish()"><svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="14" fill="#FEF3C7"/><path d="M18 24s-7-4.5-7-9.5a4 4 0 0 1 7-2.6 4 4 0 0 1 7 2.6c0 5-7 9.5-7 9.5z" fill="#B45309"/></svg><span>想吃的菜</span></div>
             <div class="func" onclick="openFeedback()"><svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="14" fill="#FEF3C7"/><path d="M18 8v12M12 20l6 6 6-6" stroke="#92400E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 22h16" stroke="#B45309" stroke-width="1.8" stroke-linecap="round"/></svg><span>意见反馈</span></div>
           </div>
         </div>
         <div class="banner" onclick="switchTab('home')">
-          <div class="bl"><b>今日晚餐推荐</b><small id="bannerSub">家常菜随你点，爸爸掌勺</small></div>
+          <div class="bl"><b>去挑几道菜</b><small id="bannerSub">家常菜随你点，爸爸掌勺</small></div>
           <div class="ba"><svg viewBox="0 0 22 22" width="22" height="22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" opacity=".2"/><path d="M9 7l4.5 5L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= ⑤ 汇总 / 备菜清单 ================= -->
+    <section class="view" id="view-summary">
+      <div class="nav">
+        <div class="icon-btn" onclick="switchTab('home')"><svg viewBox="0 0 18 18" fill="none"><path d="M10.8 15L5.4 9l5.4-6" stroke="#78350F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-title">备菜汇总</div>
+        <div class="icon-btn" onclick="copyPrep()" style="font-size:11px;color:var(--caramel);font-family:var(--font-cn)">复制</div>
+      </div>
+      <div class="pad gap20" style="padding-top:10px">
+        <div class="tip-line">打开群里<b>最新</b>的接龙链接，这里就会显示所有人点的菜汇总成的备菜清单。</div>
+        <div class="sum-stats">
+          <div class="sum-stat"><b id="sumDishes">0</b><span>已点道数</span></div>
+          <div class="sum-stat"><b id="sumPortions">0</b><span>总份数</span></div>
+          <div class="sum-stat"><b id="sumPeople">0</b><span>参与人数</span></div>
+        </div>
+        <div class="section-title" style="margin-bottom:10px">备菜清单（按份数排序）</div>
+        <div id="prepList" style="display:flex;flex-direction:column;gap:10px"></div>
       </div>
     </section>
 
@@ -476,6 +515,10 @@
     <div class="tab" data-view="confirm" onclick="switchTab('confirm')">
       <svg viewBox="0 0 18 18" fill="none"><path d="M6.8 4.4H16M6.8 9H16M6.8 13.6H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="3.1" cy="4.4" r="1.3" fill="currentColor"/><circle cx="3.1" cy="9" r="1.3" fill="currentColor"/><circle cx="3.1" cy="13.6" r="1.3" fill="currentColor"/></svg>
       清单
+    </div>
+    <div class="tab" data-view="summary" onclick="switchTab('summary')">
+      <svg viewBox="0 0 18 18" fill="none"><rect x="4" y="2.5" width="10" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7l1.4 1.4L11 6M7 11h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      汇总
     </div>
     <div class="tab" data-view="member" onclick="switchTab('member')">
       <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5.8" r="3.2" stroke="currentColor" stroke-width="1.5"/><path d="M3 15.8c0-3.3 2.7-5.2 6-5.2s6 1.9 6 5.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -837,7 +880,8 @@ function renderConfirm(){
      <div class="cost-row"><span>预计完成时间</span><b class="caramel">${finish} 左右</b></div>`;
   const cnt = cart.reduce((s,c)=>s+c.qty,0);
   document.getElementById('cartInfo').textContent = cart.length? `${cart.length} 道菜 · ${cnt} 份已点` : '还没点菜';
-  const cs=document.getElementById('cartSub'); if(cs) cs.textContent=familyNames();
+  const cs=document.getElementById('cartSub'); if(cs) cs.textContent = myName ? (myName+' 的已点') : '我的已点';
+  renderChain();
 }
 function stepCart(idx,delta){
   cart[idx].qty += delta;
@@ -856,33 +900,39 @@ function buildShareText(){
   const note = (document.getElementById('orderNote').value||'').trim();
   return `【刘家厨房 · 今晚菜单】\n${lines.join('\n')}\n共 ${cart.length} 道菜 ${cnt} 份\n${note?('备注：'+note+'\n'):''}18:30 开饭，爸爸掌勺，仅堂食 🍚`;
 }
-function submitOrder(){
-  if(cart.length===0){ toast('还没点菜呢，先去挑几道吧～'); return; }
-  const text = buildShareText();
-  orders.push({time:Date.now(), items:cart.map(c=>({id:c.id,name:DISH_BY_ID[c.id].name,qty:c.qty})), note:(document.getElementById('orderNote').value||'').trim(), by:'我'});
-  LR_set('orders', orders);
-  cart=[]; renderConfirm();
-  showShare(text);
+function shareChain(){
+  if(cart.length===0){ toast('先去点几道菜吧～'); return; }
+  if(!myName){ openNameModal(shareChain); return; }
+  const note=(document.getElementById('orderNote').value||'').trim();
+  cart.forEach(c=> sharedList.push({w:myName, d:c.id, p:c.opts.portion, t:c.opts.taste, r:c.opts.rice, s:c.opts.spicy, q:c.qty, n:note}) );
+  cart=[];
+  const enc=encodeChain(sharedList);
+  try{ history.replaceState(null,'','#'+enc); }catch(e){ location.hash=enc; }
+  renderConfirm(); renderMember();
+  showChainLink(location.href);
 }
-function showShare(text){
-  openModal(`<div class="sheet-head"><h3>已通知家人 ✅</h3><div class="sheet-close" onclick="closeModal();switchTab('member')">×</div></div>
-    <p style="font-size:13px;color:var(--muted);margin:0 0 10px">菜单已记录。复制下面内容发到家族群，爸爸就能照着做啦：</p>
-    <textarea class="share-box" id="shareText" rows="8" readonly>${text}</textarea>
-    <button class="sheet-btn" onclick="copyShare()">复制菜单</button>
-    <button class="sheet-btn ghost" onclick="closeModal();switchTab('member')">完成</button>`);
-  renderMember();
+function showChainLink(url){
+  openModal(`<div class="sheet-head"><h3>接龙链接已生成 🔗</h3><div class="sheet-close" onclick="closeModal()">×</div></div>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 10px">把下面链接发到群里，下一位打开就能看到前面所有人点的菜、接着加自己的：</p>
+    <textarea class="share-box" id="chainUrl" rows="4" readonly>${url}</textarea>
+    <button class="sheet-btn" onclick="copyChainLink()">复制链接发群里</button>
+    <button class="sheet-btn ghost" onclick="closeModal()">完成</button>`);
 }
-function copyShare(){
-  const t=document.getElementById('shareText').value;
-  const done=()=>toast('已复制，去家族群粘贴吧 📋');
-  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done)); }
-  else fallbackCopy(t,done);
+function copyChainLink(){ const t=document.getElementById('chainUrl'); if(t) copyText(t.value); }
+function copyText(t, done){
+  const ok=()=>{ toast('已复制 📋'); if(done) done(); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok).catch(()=>fallbackCopyText(t,ok)); }
+  else fallbackCopyText(t,ok);
 }
-function fallbackCopy(t,done){ const ta=document.getElementById('shareText'); ta.removeAttribute('readonly'); ta.select(); ta.setSelectionRange(0,99999); try{ document.execCommand('copy'); done(); }catch(e){ toast('请长按文本框手动复制'); } ta.setAttribute('readonly',''); }
+function fallbackCopyText(t, done){
+  const ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.top='-9999px'; document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); if(done) done(); }catch(e){ toast('请长按文本框手动复制'); }
+  document.body.removeChild(ta);
+}
 
 /* ===================== Tab 切换 ===================== */
 function switchTab(v){
-  const map = {home:'home', confirm:'confirm', member:'member'};
+  const map = {home:'home', confirm:'confirm', summary:'summary', member:'member'};
   const view = map[v]||'home';
   document.querySelectorAll('.view').forEach(s=>s.classList.remove('active'));
   document.getElementById('view-'+view).classList.add('active');
@@ -890,6 +940,7 @@ function switchTab(v){
   const activeTab = document.querySelector('#tabbar .tab[data-view="'+v+'"]');
   if(activeTab) activeTab.classList.add('active');
   if(view==='confirm') renderConfirm();
+  if(view==='summary') renderSummary();
   document.querySelector('.screen-scroll').scrollTop = 0;
 }
 function segPick(el){
@@ -931,8 +982,11 @@ function weekStart(){ const d=new Date(); const day=(d.getDay()+6)%7; d.setHours
 function weekOrderCount(){ const ws=weekStart(); return orders.filter(o=>o.time>=ws).length; }
 function renderMember(){
   document.getElementById('statTotal').textContent  = DISHES.length;
-  document.getElementById('statWeek').textContent   = weekOrderCount();
-  document.getElementById('statOnline').textContent = family.filter(f=>f.online).length;
+  const people=new Set(sharedList.map(e=>e.w)).size;
+  const dishes=new Set(sharedList.map(e=>e.d)).size;
+  document.getElementById('statWeek').textContent   = people;
+  document.getElementById('statOnline').textContent = dishes;
+  const mn=document.getElementById('memName'); if(mn) mn.textContent = myName||'我';
 }
 
 /* ===================== 懒加载 ===================== */
@@ -1042,11 +1096,103 @@ function openFeedback(){
 }
 function sendFeedback(){ const t=document.getElementById('fbText').value.trim(); if(!t){toast('写点内容呗');return;} feedback.push({time:Date.now(),text:t}); LR_set('feedback',feedback); toast('已收到，谢谢反馈 ♥'); openFeedback(); }
 
+/* ===================== 接龙引擎（URL hash 共享状态，无需后台） ===================== */
+function utoa(str){ return btoa(unescape(encodeURIComponent(str))); }
+function atou(str){ return decodeURIComponent(escape(atob(str))); }
+function encodeChain(list){
+  return utoa(JSON.stringify({v:1, list:list})).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function decodeChain(hash){
+  try{
+    let h=(hash||'').replace(/^#/,'');
+    if(!h) return [];
+    h=decodeURIComponent(h).replace(/-/g,'+').replace(/_/g,'/');
+    while(h.length%4) h+='=';
+    const obj=JSON.parse(atou(h));
+    if(obj && Array.isArray(obj.list)) return obj.list;
+  }catch(e){}
+  return [];
+}
+let myName = LR_get('myname','');
+let sharedList = decodeChain(location.hash);
+let pendingNameAfter = null;
+
+function shareChain(){
+  if(cart.length===0){ toast('先去点几道菜吧～'); return; }
+  if(!myName){ openNameModal(shareChain); return; }
+  const note=(document.getElementById('orderNote').value||'').trim();
+  cart.forEach(c=> sharedList.push({w:myName, d:c.id, p:c.opts.portion, t:c.opts.taste, r:c.opts.rice, s:c.opts.spicy, q:c.qty, n:note}) );
+  cart=[];
+  const enc=encodeChain(sharedList);
+  try{ history.replaceState(null,'','#'+enc); }catch(e){ location.hash=enc; }
+  renderConfirm(); renderMember();
+  showChainLink(location.href);
+}
+function showChainLink(url){
+  openModal(`<div class="sheet-head"><h3>接龙链接已生成 🔗</h3><div class="sheet-close" onclick="closeModal()">×</div></div>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 10px">把下面链接发到群里，下一位打开就能看到前面所有人点的菜、接着加自己的：</p>
+    <textarea class="share-box" id="chainUrl" rows="4" readonly>${url}</textarea>
+    <button class="sheet-btn" onclick="copyChainLink()">复制链接发群里</button>
+    <button class="sheet-btn ghost" onclick="closeModal()">完成</button>`);
+}
+function copyChainLink(){ const t=document.getElementById('chainUrl'); if(t) copyText(t.value); }
+
+function renderChain(){
+  const el=document.getElementById('chainList'); if(!el) return;
+  if(sharedList.length===0){ el.innerHTML='<div class="empty-sm">还没有人接龙～你点好菜生成链接发群里，大家接着点</div>'; return; }
+  const byWho={};
+  sharedList.forEach(e=>{ (byWho[e.w]=byWho[e.w]||[]).push(e); });
+  el.innerHTML=Object.keys(byWho).map(w=>{
+    const items=byWho[w].map(e=>{ const d=DISH_BY_ID[e.d]; if(!d) return ''; const spec=`${e.p}·${e.t}·${e.r}·${e.s}`; return `<div class="chain-item"><span>${d.name} ×${e.q}</span><small>${spec}</small></div>`; }).join('');
+    return `<div class="chain-person"><b>${w}</b>${items}</div>`;
+  }).join('');
+}
+
+function renderSummary(){
+  const byDish={};
+  sharedList.forEach(e=>{ const d=DISH_BY_ID[e.d]; if(!d) return; byDish[e.d]=byDish[e.d]||{dish:d, who:{}}; byDish[e.d].who[e.w]=(byDish[e.d].who[e.w]||0)+e.q; });
+  const rows=Object.values(byDish).map(x=>({name:x.dish.name, total:Object.values(x.who).reduce((a,b)=>a+b,0), who:x.who})).sort((a,b)=>b.total-a.total);
+  const list=document.getElementById('prepList'); if(!list) return;
+  if(rows.length===0){ list.innerHTML='<div class="empty-sm">还没人点菜～去「点菜」挑几道，生成接龙链接发群里吧</div>'; }
+  else {
+    list.innerHTML=rows.map((r,i)=>{
+      const br=Object.keys(r.who).map(w=>`${w}×${r.who[w]}`).join('、');
+      return `<div class="prep-row"><div class="prep-rank">${i+1}</div><div class="prep-main"><b>${r.name}</b><span class="prep-qty">×${r.total}</span><div class="prep-break">${br}</div></div></div>`;
+    }).join('');
+  }
+  const people=new Set(sharedList.map(e=>e.w)).size;
+  const totalQ=sharedList.reduce((a,e)=>a+e.q,0);
+  const sd=document.getElementById('sumDishes'); if(sd) sd.textContent=rows.length;
+  const sp=document.getElementById('sumPortions'); if(sp) sp.textContent=totalQ;
+  const spl=document.getElementById('sumPeople'); if(spl) spl.textContent=people;
+}
+
+function buildPrepText(){
+  const byDish={};
+  sharedList.forEach(e=>{ const d=DISH_BY_ID[e.d]; if(!d) return; byDish[e.d]=byDish[e.d]||{name:d.name, who:{}}; byDish[e.d].who[e.w]=(byDish[e.d].who[e.w]||0)+e.q; });
+  const rows=Object.values(byDish).map(x=>({name:x.name, total:Object.values(x.who).reduce((a,b)=>a+b,0), who:x.who})).sort((a,b)=>b.total-a.total);
+  const lines=rows.map(r=>`· ${r.name} ×${r.total}（${Object.keys(r.who).map(w=>w+'×'+r.who[w]).join('、')}）`);
+  const people=new Set(sharedList.map(e=>e.w)).size;
+  const totalQ=sharedList.reduce((a,e)=>a+e.q,0);
+  return `【刘家厨房 · 备菜清单】\n${lines.join('\n')}\n共 ${rows.length} 道菜，${totalQ} 份，${people} 人参与`;
+}
+function copyPrep(){ if(sharedList.length===0){ toast('还没人点菜呢'); return; } copyText(buildPrepText()); }
+
+function openNameModal(after){ pendingNameAfter=(typeof after==='function')?after:null; const cur=myName||''; openModal(`<div class="sheet-head"><h3>我的称呼</h3><div class="sheet-close" onclick="closeModal()">×</div></div>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 10px">填一个称呼，接龙时点过的菜会标上它（比如「王家」「老刘家」「我」）：</p>
+    <div class="field"><label>我的称呼</label><input id="nameInput" value="${cur}" placeholder="例如：王家"></div>
+    <button class="sheet-btn" onclick="saveName()">保存</button>`);
+  setTimeout(()=>{ const i=document.getElementById('nameInput'); if(i){ i.focus(); } },50);
+}
+function saveName(){ const v=(document.getElementById('nameInput').value||'').trim(); if(!v){ toast('写个称呼呗'); return; } myName=v; LR_set('myname',v); closeModal(); renderMember(); if(pendingNameAfter){ const f=pendingNameAfter; pendingNameAfter=null; f(); } }
+
 /* ===================== 初始化 ===================== */
 renderCats();
 renderMenu({});
+renderConfirm();
+renderSummary();
 renderMember();
-document.getElementById('heroSub').textContent = `家里收藏了 ${DISHES.length} 道家常菜 · ${family.length} 位家人`;
+document.getElementById('heroSub').textContent = `家里收藏了 ${DISHES.length} 道家常菜 · 有链接就能一起点`;
 document.getElementById('bannerSub').textContent = `${DISHES.length} 道家常菜随你点，爸爸掌勺`;
 </script>
 </body>
