@@ -1,6 +1,5 @@
-# 生成中间产物（AI 生图失败批次残留等），不入库
-imgs_gen/
-imgs_gen/**
-_old_*/
+gen/
 generated-images/
 *.py
+node_modules/
+.workbuddy/
