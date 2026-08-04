@@ -266,7 +266,7 @@
     overflow:hidden;
   }
   .m-header .statusbar{top:env(safe-area-inset-top,0px)!important;}
-  .m-header .content{position:absolute;left:20px;right:20px;top:calc(74px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:14px;}
+  .m-header .content{position:absolute;left:20px;right:20px;top:calc(16px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:14px;}
   .m-avatar{flex:0 0 56px;width:56px;height:56px;}
   .m-user .name{font-family:var(--font-cn);font-size:19px;font-weight:700;color:#fff;}
   .m-user .role{font-family:var(--font-cn);font-size:12px;color:var(--border);margin-top:4px;}
@@ -311,13 +311,7 @@
 <div class="phone">
   <div class="toast" id="toast"></div>
 
-  <!-- ============ 通用状态栏 ============ -->
-  <div class="statusbar dark" id="statusbar">
-    <div class="time">9:41</div>
-    <div class="icons">
-      <svg viewBox="0 0 68 14" fill="none"><path d="M1 10.5h2.2v3H1zM5.6 8h2.2v5.5H5.6zM10.2 5h2.2v8.5h-2.2zM14.8 2h2.2v11.5h-2.2z" fill="#78350F"/><path d="M22.5 5.4a9.5 9.5 0 0 1 12 0M25 8.3a5.7 5.7 0 0 1 7 0" stroke="#78350F" stroke-width="1.6" stroke-linecap="round"/><circle cx="28.5" cy="11.6" r="1.4" fill="#78350F"/><rect x="46" y="2.5" width="18" height="9" rx="2.6" stroke="#78350F" stroke-width="1.3" opacity=".65"/><rect x="47.6" y="4.1" width="12" height="5.8" rx="1.4" fill="#78350F"/><path d="M65.6 5.6v3.2a2.2 2.2 0 0 0 0-3.2z" fill="#78350F" opacity=".65"/></svg>
-    </div>
-  </div>
+  <!-- 状态栏已移除(H5真机模式不需要) -->
 
   <div class="screen-scroll">
 
@@ -415,10 +409,7 @@
     <!-- ================= ④ 会员中心 ================= -->
     <section class="view" id="view-member">
       <div class="m-header">
-        <div class="statusbar light" style="position:absolute;top:0;left:0;right:0">
-          <div class="time">9:41</div>
-          <div class="icons"><svg viewBox="0 0 68 14" fill="none"><path d="M1 10.5h2.2v3H1zM5.6 8h2.2v5.5H5.6zM10.2 5h2.2v8.5h-2.2zM14.8 2h2.2v11.5h-2.2z" fill="#FDE68A"/><path d="M22.5 5.4a9.5 9.5 0 0 1 12 0M25 8.3a5.7 5.7 0 0 1 7 0" stroke="#FDE68A" stroke-width="1.6" stroke-linecap="round"/><circle cx="28.5" cy="11.6" r="1.4" fill="#FDE68A"/><rect x="46" y="2.5" width="18" height="9" rx="2.6" stroke="#FDE68A" stroke-width="1.3" opacity=".65"/><rect x="47.6" y="4.1" width="12" height="5.8" rx="1.4" fill="#FDE68A"/><path d="M65.6 5.6v3.2a2.2 2.2 0 0 0 0-3.2z" fill="#FDE68A" opacity=".65"/></svg></div>
-        </div>
+        <!-- 状态栏已移除(H5真机模式不需要) -->
         <div class="content">
           <div class="m-avatar"><svg viewBox="0 0 56 56" width="56" height="56"><circle cx="28" cy="28" r="28" fill="#B45309"/><circle cx="28" cy="23" r="10" fill="#FEF3C7"/><path d="M12 48c0-8.8 7.2-16 16-16s16 7.2 16 16" fill="#FEF3C7"/></svg></div>
           <div class="m-user">
@@ -830,8 +821,7 @@ function switchTab(v){
   document.querySelectorAll('#tabbar .tab').forEach(t=>t.classList.remove('active'));
   const activeTab = document.querySelector('#tabbar .tab[data-view="'+v+'"]');
   if(activeTab) activeTab.classList.add('active');
-  const sb = document.getElementById('statusbar');
-  sb.className = 'statusbar ' + (view==='member' ? 'light' : 'dark');
+  /* statusbar 已移除，不再切换样式 */
   if(view==='confirm') renderConfirm();
   document.querySelector('.screen-scroll').scrollTop = 0;
 }
